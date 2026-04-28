@@ -35,7 +35,11 @@ public partial class MainWindow : Window
         };
         _ws.OnStatusChanged += status =>
         {
-            Dispatcher.Invoke(() => UpdateStatus(status));
+            Dispatcher.Invoke(() => UpdatePcStatus(status));
+        };
+        _ws.OnDeviceStatusChanged += ds =>
+        {
+            Dispatcher.Invoke(() => UpdatePhoneStatus(ds));
         };
         Loaded += async (_, _) =>
         {
@@ -55,19 +59,27 @@ public partial class MainWindow : Window
         catch { }
     }
 
-    private void UpdateStatus(ConnectionStatus status)
+    private void UpdatePcStatus(ConnectionStatus status)
     {
-        StatusDot.Fill = status switch
+        PcStatusDot.Fill = status switch
         {
             ConnectionStatus.Connected => Brushes.Green,
             ConnectionStatus.Disconnected => Brushes.Red,
             _ => Brushes.Orange
         };
-        StatusText.Text = status switch
+        PcStatusText.Text = status switch
         {
             ConnectionStatus.Connected => "已连接",
             ConnectionStatus.Disconnected => "已断开",
             _ => "连接中..."
         };
+    }
+
+    private void UpdatePhoneStatus(DeviceStatusInfo ds)
+    {
+        PhoneStatusDot.Fill = ds.Online ? Brushes.Green : Brushes.Red;
+        PhoneStatusText.Text = ds.Online
+            ? $"在线 ({ds.DeviceName})"
+            : "已断开";
     }
 }

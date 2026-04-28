@@ -33,4 +33,11 @@ public class WsMessage
     [JsonPropertyName("data")] public System.Text.Json.JsonElement? Data { get; set; }
 }
 
+public class DeviceStatusInfo
+{
+    [JsonPropertyName("device_type")] public string DeviceType { get; set; } = "";
+    [JsonPropertyName("device_name")] public string DeviceName { get; set; } = "";
+    [JsonPropertyName("online")] public bool Online { get; set; }
+}
+
 public enum ConnectionStatus { Connected, Disconnected, Connecting }

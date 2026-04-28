@@ -7,9 +7,12 @@
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
-                    <Ellipse x:Name="StatusDot" Width="10" Height="10" Margin="4,0,6,0"
-                             Fill="Gray"/>
-                    <TextBlock x:Name="StatusText" Text="未连接"/>
+                    <TextBlock Text="电脑:" Margin="0,0,4,0"/>
+                    <Ellipse x:Name="PcStatusDot" Width="10" Height="10" Margin="0,0,4,0" Fill="Gray"/>
+                    <TextBlock x:Name="PcStatusText" Text="未连接" Margin="0,0,16,0"/>
+                    <TextBlock Text="手机:" Margin="0,0,4,0"/>
+                    <Ellipse x:Name="PhoneStatusDot" Width="10" Height="10" Margin="0,0,4,0" Fill="Gray"/>
+                    <TextBlock x:Name="PhoneStatusText" Text="未知"/>
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>

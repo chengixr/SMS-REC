@@ -17,6 +17,7 @@ public class WebSocketService
 
     public event Action<SmsItem>? OnSmsReceived;
     public event Action<ConnectionStatus>? OnStatusChanged;
+    public event Action<DeviceStatusInfo>? OnDeviceStatusChanged;
 
     public WebSocketService(string serverUrl, string token, string deviceType, string deviceName)
     {
@@ -61,6 +62,12 @@ public class WebSocketService
                 {
                     var sms = JsonSerializer.Deserialize<SmsItem>(msg.Data.Value.GetRawText());
                     if (sms != null) OnSmsReceived?.Invoke(sms);
+                }
+                else if (msg?.Type == "connection_status" && msg.Data.HasValue)
+                {
+                    var ds = JsonSerializer.Deserialize<DeviceStatusInfo>(msg.Data.Value.GetRawText());
+                    if (ds != null && ds.DeviceType == "android")
+                        OnDeviceStatusChanged?.Invoke(ds);
                 }
             }
         }
