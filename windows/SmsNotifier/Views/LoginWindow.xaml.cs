@@ -7,11 +7,13 @@ public partial class LoginWindow : Window
 {
     private readonly ApiService _api;
     public string? Token { get; private set; }
+    public string ServerUrl => ServerUrlBox.Text.TrimEnd('/');
 
     public LoginWindow(ApiService api)
     {
         InitializeComponent();
         _api = api;
+        ServerUrlBox.Text = api.BaseUrl;
     }
 
     private async void LoginBtn_Click(object sender, RoutedEventArgs e)
@@ -21,6 +23,7 @@ public partial class LoginWindow : Window
         RegisterBtn.IsEnabled = false;
         try
         {
+            _api.SetBaseUrl(ServerUrl);
             var token = await _api.Login(UsernameBox.Text, PasswordBox.Password);
             if (token != null)
             {
@@ -53,6 +56,7 @@ public partial class LoginWindow : Window
         RegisterBtn.IsEnabled = false;
         try
         {
+            _api.SetBaseUrl(ServerUrl);
             if (await _api.Register(UsernameBox.Text, PasswordBox.Password))
             {
                 var token = await _api.Login(UsernameBox.Text, PasswordBox.Password);

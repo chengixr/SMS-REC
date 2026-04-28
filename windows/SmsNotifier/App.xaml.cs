@@ -12,19 +12,24 @@ public partial class App
 
     protected override void OnStartup(StartupEventArgs e)
     {
-        var api = new ApiService("http://localhost:8080");
+        string serverUrl = "http://localhost:8080";
         string? token = null;
 
         if (File.Exists(ConfigPath))
         {
             var json = File.ReadAllText(ConfigPath);
             var config = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
-            if (config != null && config.TryGetValue("token", out var savedToken))
+            if (config != null)
             {
-                token = savedToken;
-                api.SetToken(token);
+                if (config.TryGetValue("token", out var savedToken))
+                    token = savedToken;
+                if (config.TryGetValue("server", out var savedServer))
+                    serverUrl = savedServer;
             }
         }
+
+        var api = new ApiService(serverUrl);
+        if (token != null) api.SetToken(token);
 
         if (token == null)
         {
@@ -32,7 +37,12 @@ public partial class App
             if (loginWindow.ShowDialog() == true)
             {
                 token = loginWindow.Token;
-                var config = new Dictionary<string, string> { ["token"] = token! };
+                serverUrl = loginWindow.ServerUrl;
+                var config = new Dictionary<string, string>
+                {
+                    ["token"] = token!,
+                    ["server"] = serverUrl
+                };
                 File.WriteAllText(ConfigPath, JsonSerializer.Serialize(config));
             }
             else
@@ -42,7 +52,7 @@ public partial class App
             }
         }
 
-        var mainWindow = new MainWindow(api, token!);
+        var mainWindow = new MainWindow(api, token!, serverUrl);
         mainWindow.Show();
     }
 }

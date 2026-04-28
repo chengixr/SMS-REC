@@ -14,7 +14,7 @@ public partial class MainWindow : Window
     private readonly TrayIcon _trayIcon;
     public ObservableCollection<SmsItem> SmsItems { get; } = new();
 
-    public MainWindow(ApiService api, string token)
+    public MainWindow(ApiService api, string token, string serverUrl)
     {
         InitializeComponent();
         _api = api;
@@ -23,7 +23,7 @@ public partial class MainWindow : Window
 
         _trayIcon = new TrayIcon(this);
 
-        _ws = new WebSocketService("http://localhost:8080", token, "windows",
+        _ws = new WebSocketService(serverUrl, token, "windows",
             Environment.MachineName);
         _ws.OnSmsReceived += sms =>
         {

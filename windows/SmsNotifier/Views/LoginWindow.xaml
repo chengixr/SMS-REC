@@ -1,11 +1,14 @@
 <Window x:Class="SmsNotifier.Views.LoginWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="SMS Notifier - 登录" Width="360" Height="320"
+        Title="SMS Notifier - 登录" Width="360" Height="380"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <StackPanel Margin="24" VerticalAlignment="Center">
         <TextBlock Text="SMS Notifier" FontSize="20" FontWeight="Bold"
                    HorizontalAlignment="Center" Margin="0,0,0,24"/>
+        <TextBlock Text="服务器地址" Margin="0,0,0,4"/>
+        <TextBox x:Name="ServerUrlBox" Text="http://localhost:8080"
+                 Margin="0,0,0,12" Height="28"/>
         <TextBlock Text="用户名" Margin="0,0,0,4"/>
         <TextBox x:Name="UsernameBox" Margin="0,0,0,12" Height="28"/>
         <TextBlock Text="密码" Margin="0,0,0,4"/>
